@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        
+        .main-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .main-header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .main-header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin: 0;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .module-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .module-card:hover::before {
+            left: 100%;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+        
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .module-card h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .module-card p {
+            color: #7f8c8d;
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .quick-actions {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .quick-actions h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .quick-action-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .quick-action-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10001;
+            display: none;
+        }
+        
+        .message.success { background: #27ae60; }
+        .message.error { background: #e74c3c; }
+        .message.info { background: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="main-header">
+            <h1>🎵 音乐管理系统</h1>
+            <p>统一管理作曲家、学生和作品的综合平台</p>
+        </div>
+        
+        <div class="modules-grid">
+            <div class="module-card" onclick="navigateToPage('composer-management')">
+                <div class="module-icon">👨‍🎨</div>
+                <h3>作曲家管理</h3>
+                <p>管理音乐作曲家的信息和作品集</p>
+            </div>
+            
+            <div class="module-card" onclick="navigateToPage('student-management')">
+                <div class="module-icon">👨‍🎓</div>
+                <h3>学生管理</h3>
+                <p>管理系统中的学生信息和资料</p>
+            </div>
+            
+            <div class="module-card" onclick="navigateToPage('student-homework-management')">
+                <div class="module-icon">📚</div>
+                <h3>学生作业管理</h3>
+                <p>管理学生的作业和练习记录</p>
+            </div>
+            
+            <div class="module-card" onclick="navigateToPage('detail')">
+                <div class="module-icon">📋</div>
+                <h3>数据详情</h3>
+                <p>查看作业和作品的详细信息</p>
+            </div>
+        </div>
+        
+        <div class="quick-actions">
+            <h2>⚡ 快速操作</h2>
+            <div class="quick-actions-grid">
+                <a href="/pages/composer-works/composer-works.html" class="quick-action-btn">
+                    🎼 作曲家作品列表
+                </a>
+                <a href="/pages/edit-homework/edit-homework.html" class="quick-action-btn">
+                    📝 添加学生作业
+                </a>
+                <a href="/pages/edit-work/edit-work.html" class="quick-action-btn">
+                    ✏️ 编辑作品
+                </a>
+                <a href="/pages/work-detail/work-detail.html" class="quick-action-btn">
+                    🖼️ 作品详情
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 加载动画 -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- 消息提示 -->
+    <div id="messageDiv" class="message"></div>
+    
+    <script>
+        // 导航到指定页面
+        function navigateToPage(pageName) {
+            // 显示加载动画
+            showLoading();
+            
+            // 延迟执行导航，提供更好的用户体验
+            setTimeout(() => {
+                const pagePaths = {
+                    'composer-management': '/pages/composer-management/composer-management.html',
+                    'student-management': '/pages/student-management/student-management.html',
+                    'student-homework-management': '/pages/student-homework-list/student-homework-list.html',
+                    'detail': '/pages/detail/detail.html'
+                };
+                
+                const pagePath = pagePaths[pageName];
+                if (pagePath) {
+                    window.location.href = pagePath;
+                } else {
+                    hideLoading();
+                    showMessage('页面不存在', 'error');
+                }
+            }, 500);
+        }
+        
+        // 显示加载动画
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+        
+        // 隐藏加载动画
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+        
+        // 显示消息提示
+        function showMessage(text, type = 'info') {
+            const messageDiv = document.getElementById('messageDiv');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 确保加载动画初始状态是隐藏的
+            hideLoading();
+            
+            // 为模块卡片添加悬停效果
+            const moduleCards = document.querySelectorAll('.module-card');
+            moduleCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+        
+        // 页面卸载时清理
+        window.addEventListener('beforeunload', function() {
+            hideLoading();
+        });
+        
+        // 页面可见性变化时检查加载动画
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                hideLoading();
+            }
+        });
+        
+        // 确保加载动画在各种情况下都被正确处理
+        setInterval(hideLoading, 1000);
+    </script>
+</body>
+</html>

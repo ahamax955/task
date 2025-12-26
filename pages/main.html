@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐作品管理系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/main.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="main-header">
+            <h1>🎵 音乐作品管理系统</h1>
+            <p class="subtitle">欢迎使用重构后的管理系统</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="modules-container">
+                <div class="modules-grid">
+                    <div class="module-card" onclick="navigateToPage('composer-management')">
+                        <div class="module-icon">👨‍🎨</div>
+                        <h3>作曲家管理</h3>
+                        <p>管理音乐作曲家的信息和作品</p>
+                    </div>
+                    
+                    <div class="module-card" onclick="navigateToPage('student-management')">
+                        <div class="module-icon">👨‍🎓</div>
+                        <h3>学生管理</h3>
+                        <p>管理系统中的学生信息</p>
+                    </div>
+                    
+                    <div class="module-card" onclick="navigateToPage('student-homework-list')">
+                        <div class="module-icon">📚</div>
+                        <h3>学生作业列表</h3>
+                        <p>查看所有学生的作业记录和统计</p>
+                    </div>
+                    
+                    <div class="module-card" onclick="navigateToPage('detail')">
+                        <div class="module-icon">📋</div>
+                        <h3>数据详情</h3>
+                        <p>查看作业和作品的详细信息</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/main.js"></script>
+</body>
+</html>

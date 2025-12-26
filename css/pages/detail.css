@@ -1,0 +1,262 @@
+/* 详情页面特定样式 */
+/* 详情页面使用 common.css 中的通用样式 */
+
+/* 页面4 - 详细信息样式 */
+.back-btn {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.back-btn button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.back-btn button:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+#detailContent {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    min-height: 400px;
+}
+
+#detailContent h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#detailContent h3 {
+    font-size: 1.3rem;
+    margin: 20px 0 10px 0;
+    color: #555;
+}
+
+#detailContent p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+#detailContent .detail-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#detailContent .detail-label {
+    font-weight: 600;
+    color: #333;
+    display: inline-block;
+    width: 100px;
+}
+
+/* 图片显示样式 */
+.detail-images-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.detail-image-fullwidth {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-image-fullwidth:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 详情选择界面样式 */
+.detail-selection {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.detail-selection h2 {
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.detail-selection > p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.selection-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.selection-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.selection-card:hover::before {
+    left: 100%;
+}
+
+.selection-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.selection-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.selection-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: 600;
+}
+
+.selection-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+.back-to-selection {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.back-to-selection .back-btn {
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.back-to-selection button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.back-to-selection button:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+}
+
+/* 列表页面加载状态 */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* 操作按钮样式 */
+.action-buttons {
+    margin-bottom: 20px;
+}
+
+.add-homework-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-homework-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.add-homework-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .selection-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .selection-card {
+        padding: 25px;
+    }
+    
+    .selection-icon {
+        font-size: 3rem;
+    }
+    
+    .detail-selection h2 {
+        font-size: 1.8rem;
+    }
+    
+    .detail-selection > p {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+}

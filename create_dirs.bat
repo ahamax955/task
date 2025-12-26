@@ -1,0 +1,9 @@
+@echo off
+mkdir d:\Trae\taskManager\pages\composer-management
+mkdir d:\Trae\taskManager\pages\student-management
+mkdir d:\Trae\taskManager\pages\detail
+mkdir d:\Trae\taskManager\pages\edit-homework
+mkdir d:\Trae\taskManager\pages\composer-works
+mkdir d:\Trae\taskManager\pages\edit-work
+mkdir d:\Trae\taskManager\pages\work-detail
+echo 目录创建完成

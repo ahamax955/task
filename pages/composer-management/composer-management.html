@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作曲家管理</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/composer-management.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <div class="page active">
+                <h1>作曲家管理</h1>
+                
+                <!-- 添加作曲家区域 -->
+                <div class="input-section">
+                    <input type="text" id="composerNameInput" placeholder="请输入作曲家名称...">
+                    <button id="addComposerBtn">添加作曲家</button>
+                </div>
+                
+                <!-- 作曲家列表区域 -->
+                <div class="data-section">
+                    <h2>作曲家列表</h2>
+                    <div id="composersList">加载中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="showPage(1)">
+                <span>选项1</span>
+            </button>
+            <button class="nav-btn active" onclick="showPage(2)">
+                <span>选项2</span>
+            </button>
+            <button class="nav-btn" onclick="showPage(3)">
+                <span>选项3</span>
+            </button>
+        </div>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/composer-management.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">添加学生作业</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/edit-homework.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1 id="editHomeworkTitle">添加学生作业</h1>
+            <button class="back-btn-inline" onclick="showPage(5)">返回作业列表</button>
+        </div>
+        
+        <!-- 学生信息显示区域 -->
+        <div class="student-info-section" id="studentInfoSection">
+            <h3>👨‍🎓 当前学生信息</h3>
+            <div class="student-info-card">
+                <div class="student-name" id="studentNameDisplay">加载中...</div>
+                <div class="student-details" id="studentDetailsDisplay"></div>
+            </div>
+        </div>
+        
+        <!-- 作曲家信息显示区域 -->
+        <div class="composer-info-section" id="composerInfoSection">
+            <h3>🎼 关联作曲家信息</h3>
+            <div class="composer-info-card">
+                <div class="composer-name" id="composerNameDisplay">请选择作曲家</div>
+                <div class="composer-details" id="composerDetailsDisplay"></div>
+            </div>
+        </div>
+        
+        <form class="edit-homework-form">
+            <input type="hidden" id="editHomeworkId">
+            <input type="hidden" id="editHomeworkStudentId">
+            <input type="hidden" id="editHomeworkComposerId">
+            
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="editHomeworkTitleInput">📝 作业标题 *</label>
+                    <input type="text" id="editHomeworkTitleInput" placeholder="请输入作业标题，如：练习曲第一号..." maxlength="255" required>
+                </div>
+                
+                <div class="form-group" id="studentSelectGroup">
+                    <label for="editHomeworkStudentSelect">👨‍🎓 选择学生 *</label>
+                    <select id="editHomeworkStudentSelect" required>
+                        <option value="">请选择学生</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editHomeworkComposerSelect">🎼 选择作曲家 *</label>
+                    <select id="editHomeworkComposerSelect" required>
+                        <option value="">请选择作曲家</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editHomeworkDescriptionInput">📖 作业描述</label>
+                    <textarea id="editHomeworkDescriptionInput" placeholder="请输入作业描述，包括练习要求、注意事项等..." rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editHomeworkImageInput">🖼️ 作业图片</label>
+                    <input type="file" id="editHomeworkImageInput" accept="image/*" multiple>
+                    <div class="form-help-text">支持上传多张图片，每张图片大小不超过5MB</div>
+                    
+                    <!-- 新上传图片预览区域 -->
+                    <div class="new-images-preview" id="newImagesPreview" style="display: none;">
+                        <h4>📋 待上传图片预览:</h4>
+                        <div id="newImagesList" class="detail-images-vertical"></div>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="saveHomework()" class="save-homework-btn">💾 保存作业</button>
+            </div>
+            
+            <div class="current-homework-images" id="currentHomeworkImagesDiv" style="display: none;">
+                <h4>📋 当前作业图片:</h4>
+                <div id="homeworkImagesList"></div>
+            </div>
+        </form>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/edit-homework.js"></script>
+</body>
+</html>

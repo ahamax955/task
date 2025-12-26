@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作曲家作品列表</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/composer-works.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1 id="pageTitle">作曲家作品列表</h1>
+            <div class="page-actions">
+                <button class="back-btn-inline" onclick="showPage(2)">返回作曲家列表</button>
+                <button id="addWorkBtn" onclick="addNewWork()">添加作品</button>
+            </div>
+        </div>
+        <div id="composerWorksContent">加载中...</div>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/composer-works.js"></script>
+</body>
+</html>

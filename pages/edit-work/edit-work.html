@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">添加作品</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/edit-work.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1 id="editWorkTitle">添加作品</h1>
+            <button class="back-btn-inline" onclick="showPage(6)">返回作品列表</button>
+        </div>
+        
+        <!-- 作曲家信息显示区域 -->
+        <div class="composer-info-section" id="composerInfoSection">
+            <h3>🎼 当前作曲家信息</h3>
+            <div class="composer-info-card">
+                <div class="composer-name" id="composerNameDisplay">加载中...</div>
+                <div class="composer-details" id="composerDetailsDisplay"></div>
+            </div>
+        </div>
+        
+        <form class="edit-work-form">
+            <input type="hidden" id="editWorkId">
+            <input type="hidden" id="editWorkComposerId">
+            
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="editWorkTitleInput">📝 作品标题 *</label>
+                    <input type="text" id="editWorkTitleInput" placeholder="请输入作品标题，如：月光奏鸣曲..." maxlength="255" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editWorkDifficultyInput">⭐ 难度级别</label>
+                    <select id="editWorkDifficultyInput">
+                        <option value="">请选择难度级别</option>
+                        <option value="初级">初级</option>
+                        <option value="中级">中级</option>
+                        <option value="高级">高级</option>
+                        <option value="专业级">专业级</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editWorkDescriptionInput">📖 作品描述</label>
+                    <textarea id="editWorkDescriptionInput" placeholder="请输入作品描述，包括创作背景、音乐风格等信息..." rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editWorkImageInput">🖼️ 作品图片</label>
+                    <input type="file" id="editWorkImageInput" accept="image/*" multiple>
+                    <div class="form-help-text">支持上传多张图片，每张图片大小不超过5MB</div>
+                </div>
+                
+                <button type="button" onclick="saveWork()" class="save-work-btn">💾 保存作品</button>
+            </div>
+            
+            <div class="current-work-images" id="currentWorkImagesDiv" style="display: none;">
+                <h4>📋 当前作品图片:</h4>
+                <div id="workImagesList"></div>
+            </div>
+        </form>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/edit-work.js"></script>
+</body>
+</html>

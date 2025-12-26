@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>详细信息</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/detail.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <div class="page active">
+                <div class="page-header">
+                    <h1>详细信息</h1>
+                    <div class="page-actions">
+                        <button class="back-btn-inline" onclick="goBack()">返回上一页</button>
+                        <button id="editHomeworkBtn" style="display: none;" onclick="editCurrentHomework()">修改作业</button>
+                        <button id="addWorkBtn" onclick="addNewWork()" style="display: none;">添加作品</button>
+                    </div>
+                </div>
+                <div id="detailContent">加载中...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/detail.js"></script>
+</body>
+</html>

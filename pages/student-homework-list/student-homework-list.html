@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生作业列表</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/student-homework-list.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>📋 学生作业列表</h1>
+            <button class="back-btn-inline" onclick="goBack()">返回学生管理</button>
+        </div>
+        
+        <!-- 筛选区域 -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <label for="studentFilter">按学生筛选：</label>
+                <select id="studentFilter" onchange="filterHomeworks()">
+                    <option value="">所有学生</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="composerFilter">按作曲家筛选：</label>
+                <select id="composerFilter" onchange="filterHomeworks()">
+                    <option value="">所有作曲家</option>
+                </select>
+            </div>
+            
+            <button class="reset-filter-btn" onclick="resetFilters()">🔄 重置筛选</button>
+        </div>
+        
+        <!-- 统计信息 -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalHomeworks">0</div>
+                <div class="stat-label">总作业数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">0</div>
+                <div class="stat-label">参与学生</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalComposers">0</div>
+                <div class="stat-label">涉及作曲家</div>
+            </div>
+        </div>
+        
+        <!-- 作业列表 -->
+        <div class="data-section">
+            <h2>作业列表</h2>
+            <div id="homeworkList" class="homework-list">
+                <div class="loading-text">加载中...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/student-homework-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生管理</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/pages/student-management.css">
+</head>
+<body>
+    <!-- 顶部功能栏 -->
+    <div class="top-nav-bar">
+        <a href="/" class="top-nav-btn" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="/pages/student-homework-list/student-homework-list.html" class="top-nav-btn" data-page="student-homework">
+            <span class="nav-icon">📚</span>
+            <span>学生作业</span>
+        </a>
+        <a href="/pages/student-management/student-management.html" class="top-nav-btn" data-page="student-management">
+            <span class="nav-icon">👨‍🎓</span>
+            <span>学生管理</span>
+        </a>
+        <a href="/pages/composer-management/composer-management.html" class="top-nav-btn" data-page="composer-management">
+            <span class="nav-icon">👨‍🎨</span>
+            <span>作曲家管理</span>
+        </a>
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+            <span class="nav-icon">🎼</span>
+            <span>所有作品</span>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <div class="page active">
+                <h1>学生管理</h1>
+                
+                <!-- 添加学生区域 -->
+                <div class="input-section">
+                    <input type="text" id="studentNameInput" placeholder="请输入学生姓名...">
+                    <button id="addStudentBtn">添加学生</button>
+                </div>
+                
+                <!-- 学生列表区域 -->
+                <div class="data-section">
+                    <h2>学生列表</h2>
+                    <div id="studentsList">加载中...</div>
+                </div>
+                
+                <!-- 作业列表入口 -->
+                <div class="data-section">
+                    <div class="section-header">
+                        <h2>学生作业管理</h2>
+                        <button class="view-homework-btn" onclick="viewAllStudentHomeworks()">
+                            📋 查看所有学生作业
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="showPage(1)">
+                <span>选项1</span>
+            </button>
+            <button class="nav-btn" onclick="showPage(2)">
+                <span>选项2</span>
+            </button>
+            <button class="nav-btn active" onclick="showPage(3)">
+                <span>选项3</span>
+            </button>
+        </div>
+    </div>
+    
+    <script src="/js/common/navigation.js"></script>
+    <script src="/js/pages/student-management.js"></script>
+</body>
+</html>

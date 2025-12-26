@@ -1,0 +1,7 @@
+#!/www/wwwroot/taskManager/478f3a4c51824ad23cb50c1c60670c0f_venv/bin/python3
+import sys
+from flask.cli import main
+if __name__ == '__main__':
+    if sys.argv[0].endswith('.exe'):
+        sys.argv[0] = sys.argv[0][:-4]
+    sys.exit(main())
