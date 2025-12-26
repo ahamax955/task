@@ -14,16 +14,36 @@ function getComposers() {
             
             let html = '';
             
-            composers.forEach(composer => {
-                html += `<div class="composer-item">`;
-                html += `<div class="composer-name" onclick="showComposerWorks(${composer.id})" title="点击查看该作曲家的作品">${composer.name}</div>`;
-                html += `<div class="composer-actions">`;
-                html += `<button onclick="updateComposer(${composer.id})" class="update-btn">更新</button>`;
-                html += `<button onclick="deleteComposer(${composer.id})" class="delete-btn">删除</button>`;
-                html += `<button onclick="addWork(${composer.id})" class="add-work-btn">添加作品</button>`;
-                html += `</div>`;
-                html += `</div>`;
+            // 按作曲家姓名的字母顺序排列
+            composers.sort((a, b) => {
+                return a.name.localeCompare(b.name, 'zh-CN');
             });
+
+            html = '<div class="composer-cards-grid">';
+            
+            composers.forEach(composer => {
+                // 作曲家卡片开始
+                html += `
+                    <div class="composer-card">
+                        <div class="composer-card-header">
+                            <div class="composer-card-title">
+                                <span class="composer-icon">👨‍🎨</span>
+                                <span class="composer-name" onclick="showComposerWorks(${composer.id})" title="点击查看该作曲家的作品">${composer.name}</span>
+                            </div>
+                            <div class="card-header-buttons">
+                                <div class="composer-count-badge">管理</div>
+                                <button class="add-work-btn" onclick="addWork(${composer.id})">添加作品</button>
+                            </div>
+                        </div>
+                        <div class="composer-management-buttons">
+                            <button onclick="updateComposer(${composer.id})" class="update-btn">更新</button>
+                            <button onclick="deleteComposer(${composer.id})" class="delete-btn">删除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
             
             composersList.innerHTML = html;
         })

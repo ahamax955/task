@@ -14,16 +14,36 @@ function getStudents() {
             
             let html = '';
             
-            students.forEach(student => {
-                html += `<div class="student-item">`;
-                html += `<div class="student-name" onclick="viewStudentHomeworks(${student.id})" title="点击查看该学生的作业">${student.name}</div>`;
-                html += `<div class="student-actions">`;
-                html += `<button onclick="updateStudent(${student.id})" class="update-btn">更新</button>`;
-                html += `<button onclick="deleteStudent(${student.id})" class="delete-btn">删除</button>`;
-                html += `<button onclick="addStudentHomework(${student.id})" class="add-homework-btn">添加作业</button>`;
-                html += `</div>`;
-                html += `</div>`;
+            // 按学生姓名的字母顺序排列
+            students.sort((a, b) => {
+                return a.name.localeCompare(b.name, 'zh-CN');
             });
+
+            html = '<div class="student-cards-grid">';
+            
+            students.forEach(student => {
+                // 学生卡片开始
+                html += `
+                    <div class="student-card">
+                        <div class="student-card-header">
+                            <div class="student-card-title">
+                                <span class="student-icon">👨‍🎓</span>
+                                <span class="student-name" onclick="viewStudentHomeworks(${student.id})" title="点击查看该学生的作业">${student.name}</span>
+                            </div>
+                            <div class="card-header-buttons">
+                                <div class="student-count-badge">管理</div>
+                                <button class="add-homework-btn" onclick="addStudentHomework(${student.id})">添加作业</button>
+                            </div>
+                        </div>
+                        <div class="student-management-buttons">
+                            <button onclick="updateStudent(${student.id})" class="update-btn">更新</button>
+                            <button onclick="deleteStudent(${student.id})" class="delete-btn">删除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
             
             studentsList.innerHTML = html;
         })
