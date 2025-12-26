@@ -50,14 +50,37 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .filter-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    min-width: 180px;
+    min-width: 200px;
+    flex: 1;
+    max-width: 300px;
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .filter-group label {
@@ -224,6 +247,39 @@
     font-size: 0.85rem;
     font-weight: 600;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* 学生卡片头部按钮容器 */
+.card-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 添加作业按钮 - 与作业数量徽章相同样式 */
+.add-homework-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.add-homework-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.add-homework-btn:active {
+    transform: translateY(0);
 }
 
 /* 作业列表在卡片内 - 水平排列，一行显示多个 */
@@ -435,6 +491,21 @@
     
     .student-card-title .student-name {
         font-size: 1.1rem;
+    }
+    
+    /* 移动端按钮样式优化 */
+    .card-header-buttons {
+        gap: 6px;
+    }
+    
+    .homework-count-badge {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .add-homework-btn {
+        padding: 5px 12px;
+        font-size: 0.8rem;
     }
     
     /* 移动端作业项优化 */

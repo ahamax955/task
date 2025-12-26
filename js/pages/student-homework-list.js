@@ -262,7 +262,10 @@ function renderHomeworkList(homeworks = null) {
                         <span class="student-icon">👨‍🎓</span>
                         <span class="student-name">${student ? student.name : '未知学生'}</span>
                     </div>
-                    <div class="homework-count-badge">${studentHomeworks.length} 个作业</div>
+                    <div class="card-header-buttons">
+                        <div class="homework-count-badge">${studentHomeworks.length} 个作业</div>
+                        <button class="add-homework-btn" onclick="addHomework(${studentId})">添加作业</button>
+                    </div>
                 </div>
                 <div class="student-homeworks">
         `;
@@ -366,6 +369,12 @@ function goBack() {
 function showHomeworkDetail(homeworkId) {
     // 跳转到作业详情页面
     window.location.href = `/pages/detail/detail.html?type=homework&id=${homeworkId}`;
+}
+
+// 添加新作业
+function addHomework(studentId) {
+    // 跳转到编辑作业页面，传递学生ID参数
+    window.location.href = `/pages/edit-homework/edit-homework.html?studentId=${studentId}`;
 }
 
 // 编辑作业
