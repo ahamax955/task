@@ -31,7 +31,7 @@ function getStudents() {
                                 <span class="student-name" onclick="viewStudentHomeworks(${student.id})" title="点击查看该学生的作业">${student.name}</span>
                             </div>
                             <div class="card-header-buttons">
-                                <div class="student-count-badge">管理</div>
+                                <div class="homework-count-badge">管理</div>
                                 <button class="add-homework-btn" onclick="addStudentHomework(${student.id})">添加作业</button>
                             </div>
                         </div>

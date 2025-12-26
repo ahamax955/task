@@ -31,7 +31,7 @@ function getComposers() {
                                 <span class="composer-name" onclick="showComposerWorks(${composer.id})" title="点击查看该作曲家的作品">${composer.name}</span>
                             </div>
                             <div class="card-header-buttons">
-                                <div class="composer-count-badge">管理</div>
+                                <div class="works-count-badge">管理</div>
                                 <button class="add-work-btn" onclick="addWork(${composer.id})">添加作品</button>
                             </div>
                         </div>
