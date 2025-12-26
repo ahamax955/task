@@ -1,7 +1,181 @@
 /* 作曲家管理页面特定样式 */
 /* 作曲家管理页面使用 common.css 中的通用样式 */
 
-/* 作曲家列表特殊样式 */
+/* 作曲家卡片列表 - 垂直排列 */
+.composer-cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 作曲家卡片 - 垂直排列 */
+.composer-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.composer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.composer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: #667eea;
+}
+
+/* 作曲家卡片头部 */
+.composer-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f3f4;
+}
+
+.composer-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.composer-card-title .composer-icon {
+    font-size: 1.8rem;
+    opacity: 0.8;
+}
+
+.composer-card-title .composer-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.composer-card-title .composer-name:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: translateX(4px);
+}
+
+.composer-card-title .composer-name:hover::after {
+    content: ' 🎼';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* 作曲家卡片头部按钮容器 */
+.card-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 作品数量徽章 - 用于管理页面显示作曲家作品数量 */
+.works-count-badge {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* 添加作品按钮 - 与徽章相同样式 */
+.add-work-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.add-work-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* 管理按钮区域 */
+.composer-management-buttons {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid #e9ecef;
+}
+
+/* 管理按钮样式 */
+.update-btn, .delete-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.update-btn {
+    background: linear-gradient(135deg, #007aff 0%, #0056b3 100%);
+    color: white;
+}
+
+.update-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.delete-btn {
+    background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+    color: white;
+}
+
+.delete-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* 旧样式保留作为备选 */
 .composer-item {
     display: flex;
     justify-content: space-between;
@@ -13,7 +187,9 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     width: 100%;
-    max-width: 1100px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .composer-item:hover {
@@ -23,10 +199,31 @@
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .composer-item {
+    .composer-card {
+        padding: 16px;
+        margin: 0 10px;
+    }
+    
+    .composer-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding-bottom: 12px;
+    }
+    
+    .card-header-buttons {
         width: 100%;
-        max-width: 100%;
-        margin: 0 auto 10px auto;
+        justify-content: space-between;
+    }
+    
+    .composer-management-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .composer-management-buttons button {
+        flex: 1;
+        min-width: 80px;
     }
 }
 
