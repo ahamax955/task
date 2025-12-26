@@ -267,7 +267,7 @@ function renderHomeworkList(homeworks = null) {
                 <div class="student-homeworks">
         `;
         
-        // 渲染该学生的所有作业（简略信息）
+        // 渲染该学生的所有作业（紧凑显示）
         studentHomeworks.forEach(homework => {
             const composer = allComposers.find(c => c.id === homework.composer_id);
             
