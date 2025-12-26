@@ -217,57 +217,99 @@ function renderHomeworkList(homeworks = null) {
     
     const homeworkList = document.getElementById('homeworkList');
     
-    if (filteredHomeworks.length === 0) {
+    if (homeworkList && filteredHomeworks.length === 0) {
         showEmptyState();
         return;
     }
     
-    let html = '';
-    
+    // 按学生ID对作业进行分组
+    const homeworksByStudent = {};
     filteredHomeworks.forEach(homework => {
-        // 查找学生和作曲家信息
-        const student = allStudents.find(s => s.id === homework.student_id);
-        const composer = allComposers.find(c => c.id === homework.composer_id);
+        if (!homeworksByStudent[homework.student_id]) {
+            homeworksByStudent[homework.student_id] = [];
+        }
+        homeworksByStudent[homework.student_id].push(homework);
+    });
+    
+    // 对每个学生组内的作业按时间倒序排序（最新的在前）
+    Object.keys(homeworksByStudent).forEach(studentId => {
+        homeworksByStudent[studentId].sort((a, b) => {
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
+    });
+    
+    // 按学生姓名的字母顺序排列学生组
+    const sortedStudentIds = Object.keys(homeworksByStudent).sort((a, b) => {
+        const studentA = allStudents.find(s => s.id == a);
+        const studentB = allStudents.find(s => s.id == b);
+        const nameA = studentA ? studentA.name : '';
+        const nameB = studentB ? studentB.name : '';
+        return nameA.localeCompare(nameB, 'zh-CN');
+    });
+    
+    let html = '<div class="student-cards-grid">';
+    
+    // 渲染每个学生的卡片
+    sortedStudentIds.forEach(studentId => {
+        const student = allStudents.find(s => s.id == studentId);
+        const studentHomeworks = homeworksByStudent[studentId];
         
-        // 格式化日期
-        const date = new Date(homework.created_at).toLocaleDateString('zh-CN');
-        
-        // 处理图片数量
-        const imageCount = homework.images && homework.images.length > 0 ? homework.images.length : 0;
-        
+        // 学生卡片开始
         html += `
-            <div class="homework-item">
-                <div class="homework-content" onclick="showHomeworkDetail(${homework.id})">
+            <div class="student-card">
+                <div class="student-card-header">
+                    <div class="student-card-title">
+                        <span class="student-icon">👨‍🎓</span>
+                        <span class="student-name">${student ? student.name : '未知学生'}</span>
+                    </div>
+                    <div class="homework-count-badge">${studentHomeworks.length} 个作业</div>
+                </div>
+                <div class="student-homeworks">
+        `;
+        
+        // 渲染该学生的所有作业（简略信息）
+        studentHomeworks.forEach(homework => {
+            const composer = allComposers.find(c => c.id === homework.composer_id);
+            
+            // 格式化日期
+            const date = new Date(homework.created_at).toLocaleDateString('zh-CN');
+            
+            // 处理图片数量
+            const imageCount = homework.images && homework.images.length > 0 ? homework.images.length : 0;
+            
+            html += `
+                <div class="homework-item" onclick="showHomeworkDetail(${homework.id})">
                     <div class="homework-header">
                         <div class="homework-title">${homework.content || '无标题作业'}</div>
                         <div class="homework-date">${date}</div>
                     </div>
-                    
                     <div class="homework-info">
-                        <div class="homework-student">
-                            <span class="student-icon">👨‍🎓</span>
-                            <span class="student-name">${student ? student.name : '未知学生'}</span>
-                        </div>
-                        
                         <div class="homework-composer">
                             <span class="composer-icon">🎼</span>
                             <span class="composer-name">${composer ? composer.name : '未知作曲家'}</span>
                         </div>
-                        
                         ${imageCount > 0 ? `
                             <div class="homework-images">
                                 📷 包含 ${imageCount} 张图片
                             </div>
                         ` : ''}
                     </div>
+                    <div class="homework-actions">
+                        <button onclick="editHomework(${homework.id})" class="edit-btn">编辑</button>
+                        <button onclick="deleteHomework(${homework.id}, '${homework.content || '无标题作业'}')" class="delete-btn">删除</button>
+                    </div>
                 </div>
-                <div class="homework-actions">
-                    <button onclick="editHomework(${homework.id})" class="edit-btn">编辑</button>
-                    <button onclick="deleteHomework(${homework.id}, '${homework.content || '无标题作业'}')" class="delete-btn">删除</button>
+            `;
+        });
+        
+        // 学生卡片结束
+        html += `
                 </div>
             </div>
         `;
     });
+    
+    html += '</div>';
     
     homeworkList.innerHTML = html;
 }
