@@ -1,49 +1,16 @@
-# =====================
-# Python
-# =====================
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.log
-
-# Virtual env
-.env
-.venv/
-venv/
-
-# =====================
-# Django / Flask / Web
-# =====================
-staticfiles/
-media/
-uploads/
-static/uploads/
-
-# =====================
-# Test artifacts
-# =====================
-*.png
-*.jpg
-*.jpeg
-*.gif
-
-# =====================
-# Server / Deploy
-# =====================
-.htaccess
-uwsgi.pid
-uwsgi.log
-
-# =====================
-# IDE / OS
-# =====================
-.idea/
-.vscode/
-.DS_Store
-
-# =====================
-# Random / Temp
-# =====================
-478f3a4c51824ad2
+# Python 
+ __pycache__/ 
+ *.pyc 
+ 
+ # Virtual env 
+ *_venv/ 
+ venv/ 
+ 
+ # Runtime / uploads 
+ static/uploads/ 
+ 
+ # Editor 
+ *.swp 
+ .idea/ 
+ .vscode/
 
