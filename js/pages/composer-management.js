@@ -18,8 +18,7 @@ function getComposers() {
                 html += `<div class="composer-item">`;
                 html += `<div class="composer-name" onclick="showComposerWorks(${composer.id})" title="点击查看该作曲家的作品">${composer.name}</div>`;
                 html += `<div class="composer-actions">`;
-                html += `<button onclick="updateComposer(${composer.id})" class="update-btn">更新</button>`;
-                html += `<button onclick="deleteComposer(${composer.id})" class="delete-btn">删除</button>`;
+                html += `<button onclick="addWork(${composer.id})" class="add-work-btn">添加作品</button>`;
                 html += `</div>`;
                 html += `</div>`;
             });
@@ -67,62 +66,7 @@ function addComposer() {
     });
 }
 
-// 更新作曲家
-function updateComposer(id) {
-    const name = prompt('请输入新的作曲家名称:');
-    
-    if (!name || name.trim() === '') {
-        alert('请输入有效的作曲家名称');
-        return;
-    }
-    
-    fetch(`/api/composers/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: name.trim() })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // 刷新作曲家列表
-            getComposers();
-            // 同时刷新界面1中的作曲家下拉列表
-            loadComposersAndStudents();
-        } else {
-            alert(data.error || '更新失败');
-        }
-    })
-    .catch(error => {
-        console.error('更新作曲家失败:', error);
-        alert('更新失败');
-    });
-}
 
-// 删除作曲家
-function deleteComposer(id) {
-    if (confirm('确定要删除这个作曲家吗？')) {
-        fetch(`/api/composers/${id}`, {
-            method: 'DELETE'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // 刷新作曲家列表
-                getComposers();
-                // 同时刷新界面1中的作曲家下拉列表
-                loadComposersAndStudents();
-            } else {
-                alert(data.error || '删除失败');
-            }
-        })
-        .catch(error => {
-            console.error('删除作曲家失败:', error);
-            alert('删除失败');
-        });
-    }
-}
 
 // 获取作曲家和学生数据（用于其他页面的下拉列表）
 function loadComposersAndStudents() {
@@ -163,6 +107,12 @@ function loadComposersAndStudents() {
             }
         })
         .catch(error => console.error('获取学生数据失败:', error));
+}
+
+// 添加作品
+function addWork(composerId) {
+    // 跳转到添加作品页面，传递作曲家ID参数
+    window.location.href = `/pages/edit-work/edit-work.html?composerId=${composerId}`;
 }
 
 // 显示作曲家的作品列表
