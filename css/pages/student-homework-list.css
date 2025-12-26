@@ -422,9 +422,11 @@
         padding: 20px;
     }
     
+    /* 移动端学生卡片 - 保持垂直排列 */
     .student-cards-grid {
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
     
     .student-card {
@@ -435,35 +437,79 @@
         font-size: 1.1rem;
     }
     
+    /* 移动端作业项优化 */
     .homework-item {
-        padding: 12px;
+        padding: 10px;
+        min-width: 140px;
+        max-width: 160px;
+        max-height: 140px;
     }
     
     .homework-title {
-        font-size: 0.9rem;
+        font-size: 0.7rem;
+        margin-right: 4px;
+    }
+    
+    .homework-date {
+        font-size: 0.6rem;
+    }
+    
+    .homework-composer {
+        font-size: 0.6rem;
+        gap: 1px;
+    }
+    
+    .homework-images {
+        font-size: 0.6rem;
+    }
+    
+    .homework-actions {
+        gap: 3px;
+    }
+    
+    .edit-btn, .delete-btn {
+        padding: 2px 4px;
+        font-size: 0.6rem;
     }
     
     .student-homeworks {
-        max-height: 320px;
+        gap: 8px;
     }
 }
 
-/* 大屏幕优化 - 一行显示3个卡片 */
+/* 大屏幕优化 - 保持垂直排列，优化间距 */
 @media (min-width: 1200px) {
     .student-cards-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
     }
     
     .student-card {
-        padding: 18px;
+        padding: 28px;
+    }
+    
+    .homework-item {
+        min-width: 180px;
+        max-width: 200px;
+        max-height: 170px;
     }
 }
 
-/* 中等屏幕 - 一行显示2个卡片 */
+/* 中等屏幕 - 保持垂直排列 */
 @media (min-width: 768px) and (max-width: 1199px) {
     .student-cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    .student-card {
+        padding: 20px;
+    }
+    
+    .homework-item {
+        min-width: 160px;
+        max-width: 180px;
     }
 }
