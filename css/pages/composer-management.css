@@ -12,12 +12,22 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    width: 125%;
+    width: 100%;
+    max-width: 1100px;
 }
 
 .composer-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .composer-item {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 10px auto;
+    }
 }
 
 .composer-name {
