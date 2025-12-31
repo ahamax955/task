@@ -32,6 +32,8 @@ def get_homeworks():
             'images': homework.get('images', '').split(',') if homework.get('images') else [],
             'composer_id': homework.get('composer_id'),
             'composer_name': homework.get('composer_name', ''),
+            'work_id': homework.get('work_id'),
+            'work_title': homework.get('work_title', ''),
             'student_id': homework.get('student_id'),
             'student_name': homework.get('student_name', ''),
             'description': homework.get('description', ''),
@@ -56,6 +58,8 @@ def get_homework_detail(homework_id):
         'images': homework.get('images', '').split(',') if homework.get('images') else [],
         'composer_id': homework.get('composer_id'),
         'composer_name': homework.get('composer_name', ''),
+        'work_id': homework.get('work_id'),
+        'work_title': homework.get('work_title', ''),
         'student_id': homework.get('student_id'),
         'student_name': homework.get('student_name', ''),
         'description': homework.get('description', ''),
@@ -73,6 +77,7 @@ def add_homework():
         content = request.form.get('content')  # 作业标题
         student_id = request.form.get('student_id')
         composer_id = request.form.get('composer_id', None)
+        work_id = request.form.get('work_id', None)
         description = request.form.get('description', '')
         
         # 处理文件上传
@@ -85,6 +90,7 @@ def add_homework():
         content = data.get('content')
         student_id = data.get('student_id')
         composer_id = data.get('composer_id', None)
+        work_id = data.get('work_id', None)
         description = data.get('description', '')
         images_str = None
     
@@ -98,7 +104,8 @@ def add_homework():
         composer_id=composer_id,
         student_id=student_id,
         images=images_str,
-        description=description
+        description=description,
+        work_id=work_id
     )
     
     return jsonify({'success': True, 'homework_id': homework_id, 'message': '作业添加成功'})
@@ -108,6 +115,7 @@ def update_homework(homework_id):
     """更新作业"""
     content = request.form.get('content')
     composer_id = request.form.get('composer_id', None)
+    work_id = request.form.get('work_id', None)
     student_id = request.form.get('student_id')
     description = request.form.get('description', '')
     
@@ -138,7 +146,8 @@ def update_homework(homework_id):
         composer_id=composer_id,
         student_id=student_id,
         images=images_str,
-        description=description
+        description=description,
+        work_id=work_id
     )
     
     if success:

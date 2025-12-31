@@ -202,8 +202,13 @@ function showHomeworkDetail(homeworkId) {
             html += `</div>`;
             
             html += `<div class="detail-item">`;
+            html += `<span class="detail-label">作品:</span>`;
+            html += `<span>${homework.work_title ? `<span class="clickable-text" onclick="showWorkDetail(${homework.work_id})">${homework.work_title}</span>` : '-'}</span>`;
+            html += `</div>`;
+            
+            html += `<div class="detail-item">`;
             html += `<span class="detail-label">学生:</span>`;
-            html += `<span>${homework.student_name ? `<span class="clickable-text" onclick="showStudentDetail(${homework.student_id})">${homework.student_name}</span>` : '-'}</span>`;
+            html += `<span>${homework.student_name || '-'}</span>`;
             html += `</div>`;
             
             html += `<div class="detail-item">`;

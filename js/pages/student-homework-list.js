@@ -291,6 +291,12 @@ function renderHomeworkList(homeworks = null) {
                             <span class="composer-icon">🎼</span>
                             <span class="composer-name">${composer ? composer.name : '未知作曲家'}</span>
                         </div>
+                        ${homework.work_title ? `
+                            <div class="homework-work">
+                                <span class="work-icon">🎵</span>
+                                <span class="work-title">${homework.work_title}</span>
+                            </div>
+                        ` : ''}
                         ${imageCount > 0 ? `
                             <div class="homework-images">
                                 📷 包含 ${imageCount} 张图片
@@ -298,8 +304,8 @@ function renderHomeworkList(homeworks = null) {
                         ` : ''}
                     </div>
                     <div class="homework-actions">
-                        <button onclick="editHomework(${homework.id})" class="edit-btn">编辑</button>
-                        <button onclick="deleteHomework(${homework.id}, '${homework.content || '无标题作业'}')" class="delete-btn">删除</button>
+                        <button onclick="event.stopPropagation(); editHomework(${homework.id})" class="edit-btn">编辑</button>
+                        <button onclick="event.stopPropagation(); deleteHomework(${homework.id}, '${homework.content || '无标题作业'}')" class="delete-btn">删除</button>
                     </div>
                 </div>
             `;

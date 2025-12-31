@@ -376,6 +376,24 @@
     color: #495057;
 }
 
+.homework-work {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.65rem;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+.work-icon {
+    font-size: 0.7rem;
+}
+
+.work-title {
+    font-weight: 500;
+    color: #495057;
+}
+
 .homework-images {
     font-size: 0.7rem;
     color: #6c757d;

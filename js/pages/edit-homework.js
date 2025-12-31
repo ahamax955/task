@@ -14,19 +14,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // 编辑现有作业
         document.getElementById('pageTitle').textContent = '编辑作业';
         document.getElementById('editHomeworkTitle').textContent = '编辑作业';
-        // 编辑时需要显示学生选择框
-        setupStudentSelectionMode(true);
+        // 编辑时学生信息从作业数据中获取
+        setupStudentSelectionMode(false);
         loadHomeworkToEdit(currentHomeworkId);
     } else if (currentStudentId) {
         // 添加新作业 - 从学生列表点击进入，直接显示该学生信息
         document.getElementById('pageTitle').textContent = '添加作业';
         document.getElementById('editHomeworkTitle').textContent = '添加作业';
         
-        // 隐藏学生选择框，显示学生信息
+        // 显示学生信息
         setupStudentSelectionMode(false);
         
         // 设置当前学生ID到隐藏字段
-        document.getElementById('editHomeworkStudentSelect').value = currentStudentId;
+        document.getElementById('editHomeworkStudentId').value = currentStudentId;
         
         // 加载学生信息
         loadStudentInfo(currentStudentId);
@@ -34,26 +34,31 @@ document.addEventListener('DOMContentLoaded', function() {
         // 确保加载作曲家列表
         loadComposers();
     } else {
-        // 缺少必要参数，显示选择学生界面
-        setupStudentSelectionMode(true);
-        loadStudentsForSelection();
-        // 确保加载作曲家列表
-        loadComposers();
+        // 缺少必要参数，返回学生作业列表
+        alert('缺少必要参数，请从学生列表进入');
+        window.location.href = '/pages/student-homework-list/student-homework-list.html';
+        return;
+    }
+    
+    // 设置作曲家选择变化事件
+    const composerSelect = document.getElementById('editHomeworkComposerSelect');
+    if (composerSelect) {
+        composerSelect.addEventListener('change', function() {
+            const composerId = this.value;
+            loadWorks(composerId);
+        });
     }
 });
 
 // 设置学生选择模式
 function setupStudentSelectionMode(enableSelection) {
-    const studentSelectGroup = document.getElementById('studentSelectGroup');
     const studentInfoSection = document.getElementById('studentInfoSection');
     
     if (enableSelection) {
-        // 显示学生选择框，隐藏学生信息显示
-        studentSelectGroup.style.display = 'block';
+        // 隐藏学生信息显示
         studentInfoSection.style.display = 'none';
     } else {
-        // 隐藏学生选择框，显示学生信息
-        studentSelectGroup.style.display = 'none';
+        // 显示学生信息
         studentInfoSection.style.display = 'block';
     }
 }
@@ -63,114 +68,169 @@ function editHomework(homeworkId, studentId) {
     if (homeworkId) {
         loadHomeworkToEdit(homeworkId);
     } else if (studentId) {
-        document.getElementById('editHomeworkStudentSelect').value = studentId;
+        document.getElementById('editHomeworkStudentId').value = studentId;
         loadStudentInfo(studentId);
     }
 }
 
 // 加载学生信息
 function loadStudentInfo(studentId) {
+    console.log('开始加载学生信息, studentId:', studentId);
+    
+    if (!studentId) {
+        console.error('studentId为空');
+        document.getElementById('studentNameDisplay').textContent = '未选择学生';
+        return;
+    }
+    
     fetch(`/api/students/${studentId}`)
-        .then(response => response.json())
+        .then(response => {
+            console.log('API响应状态:', response.status);
+            return response.json();
+        })
         .then(student => {
+            console.log('获取到的学生数据:', student);
+            
             if (student.error) {
-                document.getElementById('studentNameDisplay').innerHTML = `<span style="color: red;">加载失败: ${student.error}</span>`;
+                console.error('API返回错误:', student.error);
+                document.getElementById('studentNameDisplay').innerHTML = `<span style="color: white;">加载失败: ${student.error}</span>`;
                 return;
             }
             
             // 显示学生信息
-            document.getElementById('studentNameDisplay').textContent = student.name || '未知学生';
-            
-            let detailsHtml = '';
-            if (student.age) {
-                detailsHtml += `🎂 年龄: ${student.age}岁<br>`;
+            const studentNameDisplay = document.getElementById('studentNameDisplay');
+            if (studentNameDisplay) {
+                studentNameDisplay.textContent = student.name || '未知学生';
+                console.log('学生姓名已设置:', student.name);
+            } else {
+                console.error('找不到studentNameDisplay元素');
             }
-            if (student.grade) {
-                detailsHtml += `🎓 年级: ${student.grade}<br>`;
-            }
-            if (student.instrument) {
-                detailsHtml += `🎵 乐器: ${student.instrument}<br>`;
-            }
-            if (student.phone) {
-                detailsHtml += `📞 联系电话: ${student.phone}`;
-            }
-            
-            if (!detailsHtml) {
-                detailsHtml = '暂无详细信息';
-            }
-            
-            document.getElementById('studentDetailsDisplay').innerHTML = detailsHtml;
         })
         .catch(error => {
             console.error('获取学生信息失败:', error);
-            document.getElementById('studentNameDisplay').innerHTML = '<span style="color: red;">加载失败</span>';
-            document.getElementById('studentDetailsDisplay').innerHTML = '无法获取学生详细信息';
+            const studentNameDisplay = document.getElementById('studentNameDisplay');
+            if (studentNameDisplay) {
+                studentNameDisplay.innerHTML = '<span style="color: white;">加载失败</span>';
+            }
         });
 }
 
 // 加载学生列表供选择
 function loadStudentsForSelection(selectedStudentId = null) {
-    fetch('/api/students')
+    // 学生选择功能已移除，此函数保留以避免错误
+    console.log('学生选择功能已移除');
+}
+
+// 加载作曲家列表
+function loadComposers() {
+    return fetch('/api/composers')
         .then(response => response.json())
-        .then(students => {
-            if (students.error) {
-                alert('获取学生列表失败: ' + students.error);
+        .then(composers => {
+            if (composers.error) {
+                console.error('获取作曲家列表失败:', composers.error);
+                return Promise.reject(composers.error);
+            }
+            
+            const select = document.getElementById('editHomeworkComposerSelect');
+            select.innerHTML = '<option value="">请选择作曲家</option>';
+            
+            composers.forEach(composer => {
+                const option = document.createElement('option');
+                option.value = composer.id;
+                option.textContent = composer.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('获取作曲家列表失败:', error);
+            throw error;
+        });
+}
+
+// 加载作品列表
+function loadWorks(composerId) {
+    const workSelect = document.getElementById('editHomeworkWorkSelect');
+    
+    if (!composerId) {
+        // 没有选择作曲家，清空作品列表
+        workSelect.innerHTML = '<option value="">请先选择作曲家</option>';
+        return Promise.resolve();
+    }
+    
+    return fetch(`/api/composers/${composerId}/works`)
+        .then(response => response.json())
+        .then(works => {
+            if (works.error) {
+                console.error('获取作品列表失败:', works.error);
+                workSelect.innerHTML = '<option value="">加载失败</option>';
                 return;
             }
             
-            const select = document.getElementById('editHomeworkStudentSelect');
-            select.innerHTML = '<option value="">请选择学生</option>';
+            workSelect.innerHTML = '<option value="">请选择作品</option>';
             
-            students.forEach(student => {
-                const option = document.createElement('option');
-                option.value = student.id;
-                option.textContent = `${student.name} (${student.grade || '未知年级'})`;
-                select.appendChild(option);
-            });
-            
-            // 如果有指定的学生ID，设置默认选中
-            if (selectedStudentId) {
-                select.value = selectedStudentId;
-                loadStudentInfo(selectedStudentId);
+            if (works && works.length > 0) {
+                works.forEach(work => {
+                    const option = document.createElement('option');
+                    option.value = work.id;
+                    option.textContent = work.title;
+                    workSelect.appendChild(option);
+                });
+            } else {
+                workSelect.innerHTML = '<option value="">该作曲家暂无作品</option>';
             }
         })
         .catch(error => {
-            console.error('获取学生列表失败:', error);
-            alert('获取学生列表失败，请刷新页面重试');
+            console.error('获取作品列表失败:', error);
+            workSelect.innerHTML = '<option value="">加载失败</option>';
         });
 }
 
 // 加载作业数据到编辑表单
 function loadHomeworkToEdit(homeworkId) {
     fetch(`/api/homeworks/${homeworkId}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(homework => {
             if (homework.error) {
-                alert('获取作业信息失败: ' + homework.error);
-                return;
+                throw new Error('获取作业信息失败: ' + homework.error);
             }
             
             // 填充表单
             document.getElementById('editHomeworkId').value = homework.id;
             document.getElementById('editHomeworkTitleInput').value = homework.content || '';
             document.getElementById('editHomeworkDescriptionInput').value = homework.description || '';
-            document.getElementById('editHomeworkStudentSelect').value = homework.student_id;
-            document.getElementById('editHomeworkComposerSelect').value = homework.composer_id || '';
+            document.getElementById('editHomeworkStudentId').value = homework.student_id;
+            
+            // 加载作曲家列表
+            loadComposers().then(() => {
+                // 设置作曲家选择
+                if (homework.composer_id) {
+                    document.getElementById('editHomeworkComposerSelect').value = homework.composer_id;
+                    // 加载该作曲家的作品
+                    loadWorks(homework.composer_id).then(() => {
+                        // 设置作品选择
+                        if (homework.work_id) {
+                            document.getElementById('editHomeworkWorkSelect').value = homework.work_id;
+                        }
+                    });
+                }
+            });
             
             // 加载学生信息
             if (homework.student_id) {
                 loadStudentInfo(homework.student_id);
             }
             
-            // 加载作曲家列表
-            loadComposers();
-            
             // 显示当前图片
             displayHomeworkImages(homework.images);
         })
         .catch(error => {
             console.error('获取作业信息失败:', error);
-            alert('获取作业信息失败，请刷新页面重试');
+            alert('获取作业信息失败: ' + error.message + '，请刷新页面重试');
         });
 }
 
@@ -199,47 +259,11 @@ function displayHomeworkImages(images) {
     }
 }
 
-// 加载作曲家列表
-function loadComposers() {
-    fetch('/api/composers')
-        .then(response => response.json())
-        .then(composers => {
-            if (composers.error) {
-                alert('获取作曲家列表失败: ' + composers.error);
-                return;
-            }
-            
-            const select = document.getElementById('editHomeworkComposerSelect');
-            select.innerHTML = '<option value="">请选择作曲家</option>';
-            
-            composers.forEach(composer => {
-                const option = document.createElement('option');
-                option.value = composer.id;
-                option.textContent = composer.name;
-                select.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('获取作曲家列表失败:', error);
-        });
-}
-
 // 学生选择变化时加载学生信息
+// 学生选择功能已移除，此事件监听器已移除
+
+// 添加图片选择事件监听器
 document.addEventListener('DOMContentLoaded', function() {
-    const studentSelect = document.getElementById('editHomeworkStudentSelect');
-    if (studentSelect) {
-        studentSelect.addEventListener('change', function() {
-            const studentId = this.value;
-            if (studentId) {
-                loadStudentInfo(studentId);
-            } else {
-                document.getElementById('studentNameDisplay').textContent = '';
-                document.getElementById('studentDetailsDisplay').innerHTML = '';
-            }
-        });
-    }
-    
-    // 添加图片选择事件监听器
     const imageInput = document.getElementById('editHomeworkImageInput');
     if (imageInput) {
         imageInput.addEventListener('change', function() {
@@ -340,15 +364,13 @@ function saveHomework() {
     const homeworkId = document.getElementById('editHomeworkId').value;
     const title = document.getElementById('editHomeworkTitleInput').value.trim();
     const description = document.getElementById('editHomeworkDescriptionInput').value.trim();
-    const composerId = document.getElementById('editHomeworkComposerSelect').value;
     const imageInput = document.getElementById('editHomeworkImageInput');
     const files = imageInput.files;
+    const composerId = document.getElementById('editHomeworkComposerSelect').value;
+    const workId = document.getElementById('editHomeworkWorkSelect').value;
     
-    // 获取学生ID - 优先使用 currentStudentId（从学生列表点击进入），否则从选择框获取
-    let studentId = currentStudentId;
-    if (!studentId) {
-        studentId = document.getElementById('editHomeworkStudentSelect').value;
-    }
+    // 获取学生ID - 从隐藏字段获取
+    let studentId = document.getElementById('editHomeworkStudentId').value;
     
     // 表单验证
     if (!title) {
@@ -358,13 +380,7 @@ function saveHomework() {
     }
     
     if (!studentId) {
-        alert('请选择学生');
-        const studentSelect = document.getElementById('editHomeworkStudentSelect');
-        if (studentSelect && studentSelect.style.display !== 'none') {
-            studentSelect.focus();
-        } else {
-            alert('学生信息异常，请重新选择学生');
-        }
+        alert('学生信息异常，请重新选择学生');
         return;
     }
     
@@ -385,8 +401,13 @@ function saveHomework() {
     formData.append('content', title);
     formData.append('student_id', studentId);
     formData.append('description', description);
+    
+    // 添加作曲家和作品信息
     if (composerId) {
         formData.append('composer_id', composerId);
+    }
+    if (workId) {
+        formData.append('work_id', workId);
     }
     
     // 如果是编辑模式，添加作业ID

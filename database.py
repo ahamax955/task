@@ -78,6 +78,7 @@ def create_tables():
     check_and_add_column(cur, 'test', 'images', 'TEXT')
     check_and_add_column(cur, 'test', 'description', 'TEXT')
     check_and_add_column(cur, 'test', 'student_id', 'INT')
+    check_and_add_column(cur, 'test', 'work_id', 'INT')
     
     # 检查并添加works表的images字段（如果不存在）
     check_and_add_column(cur, 'works', 'images', 'TEXT')

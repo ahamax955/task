@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>作曲家作品列表</title>
+    <title>所有作品</title>
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/pages/composer-works.css">
 </head>
 <body>
-    <!-- 顶部功能栏 -->
     <div class="top-nav-bar">
         <a href="/" class="top-nav-btn" data-page="home">
             <span class="nav-icon">🏠</span>
@@ -26,7 +25,7 @@
             <span class="nav-icon">👨‍🎨</span>
             <span>作曲家管理</span>
         </a>
-        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn" data-page="composer-works">
+        <a href="/pages/composer-works/composer-works.html" class="top-nav-btn active" data-page="composer-works">
             <span class="nav-icon">🎼</span>
             <span>所有作品</span>
         </a>
@@ -34,13 +33,22 @@
     
     <div class="container">
         <div class="page-header">
-            <h1 id="pageTitle">作曲家作品列表</h1>
-            <div class="page-actions">
-                <button class="back-btn-inline" onclick="showPage(2)">返回作曲家列表</button>
-                <button id="addWorkBtn" onclick="addNewWork()">添加作品</button>
+            <h1>所有作品</h1>
+            <button class="add-work-btn" onclick="addNewWork()">添加作品</button>
+        </div>
+        
+        <div class="filter-section">
+            <div class="filter-group">
+                <label for="composerFilter">作曲家筛选：</label>
+                <select id="composerFilter" onchange="filterWorks()">
+                    <option value="">全部作曲家</option>
+                </select>
             </div>
         </div>
-        <div id="composerWorksContent">加载中...</div>
+        
+        <div id="worksContainer" class="works-container">
+            <div class="loading">加载中...</div>
+        </div>
     </div>
     
     <script src="/js/common/navigation.js"></script>

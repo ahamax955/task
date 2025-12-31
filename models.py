@@ -147,10 +147,11 @@ class Homework(BaseModel):
     def get_all(self) -> List[Dict]:
         """获取所有作业"""
         query = """
-        SELECT t.*, c.name as composer_name, s.name as student_name 
+        SELECT t.*, c.name as composer_name, s.name as student_name, w.title as work_title 
         FROM test t 
         LEFT JOIN composers c ON t.composer_id = c.id 
         LEFT JOIN students s ON t.student_id = s.id 
+        LEFT JOIN works w ON t.work_id = w.id 
         ORDER BY t.created_at DESC
         """
         return self.execute_query(query)
@@ -158,25 +159,26 @@ class Homework(BaseModel):
     def get_by_id(self, homework_id: int) -> Optional[Dict]:
         """根据ID获取作业"""
         query = """
-        SELECT t.*, c.name as composer_name, s.name as student_name 
+        SELECT t.*, c.name as composer_name, s.name as student_name, w.title as work_title 
         FROM test t 
         LEFT JOIN composers c ON t.composer_id = c.id 
         LEFT JOIN students s ON t.student_id = s.id 
+        LEFT JOIN works w ON t.work_id = w.id 
         WHERE t.id = %s
         """
         result = self.execute_query(query, (homework_id,))
         return result[0] if result else None
     
     def create(self, content: str, composer_id: int = None, student_id: int = None,
-               image: str = None, images: str = None, description: str = None) -> int:
+               image: str = None, images: str = None, description: str = None, work_id: int = None) -> int:
         """创建新作业"""
         query = """
-        INSERT INTO test (content, composer_id, student_id, image, images, description) 
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO test (content, composer_id, student_id, image, images, description, work_id) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         cursor = self.db_connection.cursor()
         try:
-            cursor.execute(query, (content, composer_id, student_id, image, images, description))
+            cursor.execute(query, (content, composer_id, student_id, image, images, description, work_id))
             self.db_connection.commit()
             return cursor.lastrowid
         finally:
@@ -184,21 +186,21 @@ class Homework(BaseModel):
     
     def update(self, homework_id: int, content: str, composer_id: int = None, 
                student_id: int = None, image: str = None, images: str = None, 
-               description: str = None) -> bool:
+               description: str = None, work_id: int = None) -> bool:
         """更新作业信息"""
         query = """
         UPDATE test 
         SET content = %s, composer_id = %s, student_id = %s, 
-            image = %s, images = %s, description = %s 
+            image = %s, images = %s, description = %s, work_id = %s 
         WHERE id = %s
         """
         affected_rows = self.execute_update(query, (content, composer_id, student_id, 
-                                                   image, images, description, homework_id))
+                                                   image, images, description, work_id, homework_id))
         return affected_rows > 0
     
     def delete(self, homework_id: int) -> bool:
         """删除作业"""
-        query = "DELETE FROM homeworks WHERE id = %s"
+        query = "DELETE FROM test WHERE id = %s"
         affected_rows = self.execute_update(query, (homework_id,))
         return affected_rows > 0
     
