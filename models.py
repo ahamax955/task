@@ -47,10 +47,12 @@ class Composer(BaseModel):
     
     def create(self, name: str) -> int:
         """创建新作曲家"""
-        query = "INSERT INTO composers (name) VALUES (%s)"
+        from datetime import datetime
+        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        query = "INSERT INTO composers (name, created_at) VALUES (%s, %s)"
         cursor = self.db_connection.cursor()
         try:
-            cursor.execute(query, (name,))
+            cursor.execute(query, (name, created_at))
             self.db_connection.commit()
             return cursor.lastrowid
         finally:
@@ -101,13 +103,15 @@ class Student(BaseModel):
     def create(self, name: str, age: int = None, grade: str = None, 
                instrument: str = None, phone: str = None) -> int:
         """创建新学生"""
+        from datetime import datetime
+        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = """
-        INSERT INTO students (name, age, grade, instrument, phone) 
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO students (name, age, grade, instrument, phone, created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s)
         """
         cursor = self.db_connection.cursor()
         try:
-            cursor.execute(query, (name, age, grade, instrument, phone))
+            cursor.execute(query, (name, age, grade, instrument, phone, created_at))
             self.db_connection.commit()
             return cursor.lastrowid
         finally:
@@ -172,13 +176,15 @@ class Homework(BaseModel):
     def create(self, content: str, composer_id: int = None, student_id: int = None,
                image: str = None, images: str = None, description: str = None, work_id: int = None) -> int:
         """创建新作业"""
+        from datetime import datetime
+        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = """
-        INSERT INTO test (content, composer_id, student_id, image, images, description, work_id) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO test (content, composer_id, student_id, image, images, description, work_id, created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         cursor = self.db_connection.cursor()
         try:
-            cursor.execute(query, (content, composer_id, student_id, image, images, description, work_id))
+            cursor.execute(query, (content, composer_id, student_id, image, images, description, work_id, created_at))
             self.db_connection.commit()
             return cursor.lastrowid
         finally:
@@ -188,14 +194,16 @@ class Homework(BaseModel):
                student_id: int = None, image: str = None, images: str = None, 
                description: str = None, work_id: int = None) -> bool:
         """更新作业信息"""
+        from datetime import datetime
+        updated_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = """
         UPDATE test 
         SET content = %s, composer_id = %s, student_id = %s, 
-            image = %s, images = %s, description = %s, work_id = %s 
+            image = %s, images = %s, description = %s, work_id = %s, created_at = %s
         WHERE id = %s
         """
         affected_rows = self.execute_update(query, (content, composer_id, student_id, 
-                                                   image, images, description, work_id, homework_id))
+                                                   image, images, description, work_id, updated_at, homework_id))
         return affected_rows > 0
     
     def delete(self, homework_id: int) -> bool:
@@ -257,13 +265,15 @@ class Work(BaseModel):
     def create(self, title: str, composer_id: int = None, difficulty: str = None,
                description: str = None, images: str = None) -> int:
         """创建新作品"""
+        from datetime import datetime
+        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = """
-        INSERT INTO works (title, composer_id, difficulty, description, images) 
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO works (title, composer_id, difficulty, description, images, created_at) 
+        VALUES (%s, %s, %s, %s, %s, %s)
         """
         cursor = self.db_connection.cursor()
         try:
-            cursor.execute(query, (title, composer_id, difficulty, description, images))
+            cursor.execute(query, (title, composer_id, difficulty, description, images, created_at))
             self.db_connection.commit()
             return cursor.lastrowid
         finally:
@@ -272,14 +282,16 @@ class Work(BaseModel):
     def update(self, work_id: int, title: str, composer_id: int = None,
                difficulty: str = None, description: str = None, images: str = None) -> bool:
         """更新作品信息"""
+        from datetime import datetime
+        updated_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = """
         UPDATE works 
         SET title = %s, composer_id = %s, difficulty = %s, 
-            description = %s, images = %s 
+            description = %s, images = %s, created_at = %s
         WHERE id = %s
         """
         affected_rows = self.execute_update(query, (title, composer_id, difficulty, 
-                                                   description, images, work_id))
+                                                   description, images, updated_at, work_id))
         return affected_rows > 0
     
     def delete(self, work_id: int) -> bool:

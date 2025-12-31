@@ -3,6 +3,17 @@
 let currentWorkId = null;
 let currentComposerId = null;
 
+function getBaseUrl() {
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    return `${protocol}//${host}`;
+}
+
+function formatBeijingTime(utcString) {
+    if (!utcString) return '';
+    return utcString;
+}
+
 // 页面初始化
 document.addEventListener('DOMContentLoaded', function() {
     // 从 URL 参数获取 workId
@@ -58,12 +69,12 @@ function getWorkDetail(workId) {
             html += `<h3>作品图片:</h3>`;
             
             if (work.images && work.images.length > 0) {
-                html += `<div class="image-gallery">`;
-                work.images.forEach(imageName => {
-                    const imagePath = `/uploads/${imageName.trim()}`;
-                    html += `<div class="image-item" onclick="viewImage('${imagePath}')">`;
-                    html += `<img src="${imagePath}" alt="作品图片">`;
-                    html += `</div>`;
+                html += `<div class="detail-images-vertical">`;
+                work.images.forEach((imageName, index) => {
+                    if (imageName.trim() !== '') {
+                        const imagePath = `${getBaseUrl()}/uploads/${imageName.trim()}`;
+                        html += `<img src="${imagePath}" alt="作品图片${index + 1}" class="detail-image-fullwidth" onclick="viewImage('${imagePath}')">`;
+                    }
                 });
                 html += `</div>`;
             } else {
@@ -73,20 +84,15 @@ function getWorkDetail(workId) {
             html += `</div>`;
             
             // 添加创建时间
-            html += `<p class="work-date">创建时间: ${work.created_at}</p>`;
+            html += `<p class="work-date">创建时间: ${formatBeijingTime(work.created_at)}</p>`;
             
             html += '</div>';
             
             // 设置作品详情内容
             document.getElementById('workDetailContent').innerHTML = html;
             
-            // 显示相关按钮
-            const addWorkBtn = document.getElementById('addWorkBtn');
+            // 显示编辑按钮
             const editWorkBtn = document.getElementById('editWorkBtn');
-            
-            if (addWorkBtn && currentComposerId) {
-                addWorkBtn.style.display = 'inline-block';
-            }
             
             if (editWorkBtn) {
                 editWorkBtn.style.display = 'inline-block';
@@ -149,16 +155,6 @@ function showComposerDetail(composerId) {
     window.location.href = `../detail/detail.html?type=composer&id=${composerId}`;
 }
 
-// 添加新作品
-function addNewWork() {
-    if (currentComposerId) {
-        // 跳转到编辑作品页面，传递作曲家ID
-        window.location.href = `../edit-work/edit-work.html?composerId=${currentComposerId}`;
-    } else {
-        alert('缺少作曲家信息');
-    }
-}
-
 // 编辑当前作品
 function editCurrentWork() {
     const editBtn = document.getElementById('editWorkBtn');
@@ -169,16 +165,11 @@ function editCurrentWork() {
     }
 }
 
-// 页面切换函数（从其他页面调用）
-function showPage(pageNumber) {
-    if (pageNumber === 6) {
-        // 返回到作品列表页面
-        if (currentComposerId) {
-            window.location.href = `../composer-works/composer-works.html?composerId=${currentComposerId}`;
-        } else {
-            window.location.href = '../composer-works/composer-works.html';
-        }
+// 返回作品列表
+function goBack() {
+    if (currentComposerId) {
+        window.location.href = `../composer-works/composer-works.html?composerId=${currentComposerId}`;
     } else {
-        alert('请使用返回按钮');
+        window.location.href = '../composer-works/composer-works.html';
     }
 }

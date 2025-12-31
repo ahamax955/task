@@ -101,11 +101,11 @@ function displayWorks(works) {
         const composerName = composer ? composer.name : '未知作曲家';
         
         html += `
-            <div class="work-card">
+            <div class="work-card" onclick="viewWorkDetail(${work.id})">
+                <div class="work-difficulty-badge">${work.difficulty || '未设置'}</div>
                 <div class="work-composer">${composerName}</div>
                 <div class="work-card-header">
-                    <h3 class="work-title" onclick="viewWorkDetail(${work.id})">${work.title}</h3>
-                    <span class="work-difficulty">${work.difficulty || '未设置'}</span>
+                    <h3 class="work-title">${work.title}</h3>
                 </div>
                 <div class="work-description">
                     ${work.description ? work.description : '暂无描述'}
@@ -117,8 +117,8 @@ function displayWorks(works) {
                     }
                 </div>
                 <div class="work-actions">
-                    <button class="view-btn" onclick="viewWorkDetail(${work.id})">查看详情</button>
-                    <button class="delete-btn" onclick="deleteWork(${work.id}, '${work.title.replace(/'/g, "\\'")}')">删除</button>
+                    <button class="edit-btn" onclick="event.stopPropagation(); editWork(${work.id})">修改</button>
+                    <button class="delete-btn" onclick="event.stopPropagation(); deleteWork(${work.id}, '${work.title.replace(/'/g, "\\'")}')">删除</button>
                 </div>
             </div>
         `;
@@ -130,6 +130,10 @@ function displayWorks(works) {
 
 function viewWorkDetail(workId) {
     window.location.href = `../work-detail/work-detail.html?workId=${workId}`;
+}
+
+function editWork(workId) {
+    window.location.href = `../edit-work/edit-work.html?workId=${workId}`;
 }
 
 function addNewWork() {

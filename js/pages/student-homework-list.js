@@ -1,5 +1,10 @@
 // 学生作业列表页面脚本
 
+function formatBeijingTime(utcString) {
+    if (!utcString) return '';
+    return utcString;
+}
+
 // 全局变量
 let allHomeworks = [];
 let allStudents = [];
@@ -274,8 +279,7 @@ function renderHomeworkList(homeworks = null) {
         studentHomeworks.forEach(homework => {
             const composer = allComposers.find(c => c.id === homework.composer_id);
             
-            // 格式化日期
-            const date = new Date(homework.created_at).toLocaleDateString('zh-CN');
+            const date = formatBeijingTime(homework.created_at);
             
             // 处理图片数量
             const imageCount = homework.images && homework.images.length > 0 ? homework.images.length : 0;

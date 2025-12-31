@@ -29,7 +29,7 @@ def create_tables():
     CREATE TABLE IF NOT EXISTS composers (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at VARCHAR(19)
     )
     """)
     
@@ -42,7 +42,7 @@ def create_tables():
         grade VARCHAR(100),
         instrument VARCHAR(100),
         phone VARCHAR(20),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at VARCHAR(19)
     )
     """)
     
@@ -54,7 +54,7 @@ def create_tables():
         image VARCHAR(255),
         composer_id INT,
         student_id INT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        created_at VARCHAR(19),
         FOREIGN KEY (composer_id) REFERENCES composers(id),
         FOREIGN KEY (student_id) REFERENCES students(id)
     )
@@ -69,7 +69,7 @@ def create_tables():
         difficulty VARCHAR(100),
         description TEXT,
         images TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        created_at VARCHAR(19),
         FOREIGN KEY (composer_id) REFERENCES composers(id)
     )
     """)

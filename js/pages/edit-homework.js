@@ -3,6 +3,12 @@
 let currentHomeworkId = null;
 let currentStudentId = null;
 
+function getBaseUrl() {
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    return `${protocol}//${host}`;
+}
+
 // 页面初始化
 document.addEventListener('DOMContentLoaded', function() {
     // 从 URL 参数获取 homeworkId 或 studentId
@@ -243,8 +249,9 @@ function displayHomeworkImages(images) {
         let html = '<div class="homework-images-grid">';
         images.forEach((imageName, index) => {
             if (imageName.trim() !== '') {
+                const imagePath = `${getBaseUrl()}/uploads/${imageName.trim()}`;
                 html += `<div class="homework-image-item">
-                    <img src="/uploads/${imageName.trim()}" alt="作业图片${index + 1}">
+                    <img src="${imagePath}" alt="作业图片${index + 1}">
                     <div class="homework-image-name">${imageName.trim()}</div>
                     <button onclick="removeHomeworkImage(${currentHomeworkId}, '${imageName.trim()}', this)" class="remove-homework-image-btn">删除</button>
                 </div>`;

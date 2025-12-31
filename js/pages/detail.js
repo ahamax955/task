@@ -1,5 +1,16 @@
 // 详情页面脚本
 
+function getBaseUrl() {
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    return `${protocol}//${host}`;
+}
+
+function formatBeijingTime(utcString) {
+    if (!utcString) return '';
+    return utcString;
+}
+
 // 查看图片
 function viewImage(imagePath) {
     // 创建图片查看弹窗
@@ -102,7 +113,7 @@ function showComposerDetail(composerId) {
                             html += `<div class="detail-card" onclick="showWorkDetail(${work.id})">`;
                             html += `<h4>${work.title}</h4>`;
                             html += `<div class="card-info">难度: ${work.difficulty || '-'}</div>`;
-                            html += `<div class="card-date">创建时间: ${work.created_at}</div>`;
+                            html += `<div class="card-date">创建时间: ${formatBeijingTime(work.created_at)}</div>`;
                             if (work.images && work.images.length > 0) {
                                 html += `<div class="card-info">包含图片: ${work.images.length}张</div>`;
                             }
@@ -154,7 +165,7 @@ function showStudentDetail(studentId) {
                             html += `<div class="detail-card" onclick="showHomeworkDetail(${homework.id})">`;
                             html += `<h4>${homework.content}</h4>`;
                             html += `<div class="card-info">作曲家: ${homework.composer_name || '-'}</div>`;
-                            html += `<div class="card-date">创建时间: ${homework.created_at}</div>`;
+                            html += `<div class="card-date">创建时间: ${formatBeijingTime(homework.created_at)}</div>`;
                             if (homework.images && homework.images.length > 0) {
                                 html += `<div class="card-info">包含图片: ${homework.images.length}张</div>`;
                             }
@@ -213,7 +224,7 @@ function showHomeworkDetail(homeworkId) {
             
             html += `<div class="detail-item">`;
             html += `<span class="detail-label">创建时间:</span>`;
-            html += `<span>${homework.created_at}</span>`;
+            html += `<span>${formatBeijingTime(homework.created_at)}</span>`;
             html += `</div>`;
             
             // 直接显示图片 - 竖直排列，占满宽度
@@ -224,7 +235,8 @@ function showHomeworkDetail(homeworkId) {
                 
                 homework.images.forEach((imageName, index) => {
                     if (imageName.trim() !== '') {
-                        html += `<img src="/uploads/${imageName.trim()}" alt="图片${index + 1}" class="detail-image-fullwidth" onclick="viewImage('/uploads/${imageName.trim()}')">`;
+                        const imagePath = `${getBaseUrl()}/uploads/${imageName.trim()}`;
+                        html += `<img src="${imagePath}" alt="图片${index + 1}" class="detail-image-fullwidth" onclick="viewImage('${imagePath}')">`;
                     }
                 });
                 
@@ -452,7 +464,7 @@ function showHomeworkList() {
                     html += `<h4>${homework.content}</h4>`;
                     html += `<div class="card-info">学生: ${homework.student_name || '-'}</div>`;
                     html += `<div class="card-info">作曲家: ${homework.composer_name || '-'}</div>`;
-                    html += `<div class="card-date">创建时间: ${homework.created_at}</div>`;
+                    html += `<div class="card-date">创建时间: ${formatBeijingTime(homework.created_at)}</div>`;
                     html += `</div>`;
                 });
                 

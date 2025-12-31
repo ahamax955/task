@@ -1,5 +1,16 @@
 
 
+function getBaseUrl() {
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    return `${protocol}//${host}`;
+}
+
+function formatBeijingTime(utcString) {
+    if (!utcString) return '';
+    return utcString;
+}
+
 // 获取所有数据
 function getData() {
     fetch('/get-data')
@@ -21,7 +32,7 @@ function getData() {
                 html += `<td class="clickable-text" onclick="showDetail('homework', ${item.id})">${item.content}</td>`;
                 html += `<td>${item.composer_name ? `<span class="clickable-text" onclick="showDetail('composer', ${item.composer_id})">${item.composer_name}</span>` : '-'}</td>`;
                 html += `<td>${item.student_name ? `<span class="clickable-text" onclick="showDetail('student', ${item.student_id})">${item.student_name}</span>` : '-'}</td>`;
-                html += `<td>${item.created_at}</td>`;
+                html += `<td>${formatBeijingTime(item.created_at)}</td>`;
                 html += `<td>`;
                 if (item.images && item.images.length > 0) {
                     html += `<span>${item.images.length}张图片</span>`;
@@ -563,7 +574,7 @@ function showComposerDetail(composerId) {
                             html += `<div class="detail-card" onclick="showDetail('work', ${work.id})">`;
                             html += `<h4>${work.title}</h4>`;
                             html += `<div class="card-info">难度: ${work.difficulty || '-'}</div>`;
-                            html += `<div class="card-date">创建时间: ${work.created_at}</div>`;
+                            html += `<div class="card-date">创建时间: ${formatBeijingTime(work.created_at)}</div>`;
                             if (work.images && work.images.length > 0) {
                                 html += `<div class="card-info">包含图片: ${work.images.length}张</div>`;
                             }
@@ -615,7 +626,7 @@ function showStudentDetail(studentId) {
                             html += `<div class="detail-card" onclick="showDetail('homework', ${homework.id})">`;
                             html += `<h4>${homework.content}</h4>`;
                             html += `<div class="card-info">作曲家: ${homework.composer_name || '-'}</div>`;
-                            html += `<div class="card-date">创建时间: ${homework.created_at}</div>`;
+                            html += `<div class="card-date">创建时间: ${formatBeijingTime(homework.created_at)}</div>`;
                             if (homework.images && homework.images.length > 0) {
                                 html += `<div class="card-info">包含图片: ${homework.images.length}张</div>`;
                             }
@@ -659,8 +670,9 @@ function loadHomeworkToEdit(homeworkId) {
             if (homework.images && homework.images.length > 0) {
                 let html = '<h4>当前图片:</h4>';
                 homework.images.forEach((imageName, index) => {
+                    const imagePath = `${getBaseUrl()}/uploads/${imageName.trim()}`;
                     html += `<div class="current-image-item">
-                        <img src="/uploads/${imageName.trim()}" alt="图片${index + 1}" class="current-image">
+                        <img src="${imagePath}" alt="图片${index + 1}" class="current-image">
                         <button onclick="removeImage(${homework.id}, '${imageName.trim()}', this)" class="remove-image-btn">删除</button>
                     </div>`;
                 });
@@ -796,7 +808,7 @@ function showHomeworkDetail(homeworkId) {
             
             html += `<div class="detail-item">`;
             html += `<span class="detail-label">创建时间:</span>`;
-            html += `<span>${homework.created_at}</span>`;
+            html += `<span>${formatBeijingTime(homework.created_at)}</span>`;
             html += `</div>`;
             
             // 直接显示图片 - 竖直排列，占满宽度
@@ -807,7 +819,8 @@ function showHomeworkDetail(homeworkId) {
                 
                 homework.images.forEach((imageName, index) => {
                     if (imageName.trim() !== '') {
-                        html += `<img src="/uploads/${imageName.trim()}" alt="图片${index + 1}" class="detail-image-fullwidth" onclick="viewImage('/uploads/${imageName.trim()}')">`;
+                        const imagePath = `${getBaseUrl()}/uploads/${imageName.trim()}`;
+                        html += `<img src="${imagePath}" alt="图片${index + 1}" class="detail-image-fullwidth" onclick="viewImage('${imagePath}')">`;
                     }
                 });
                 
@@ -948,7 +961,7 @@ function showWorkDetail(workId) {
             if (work.images && work.images.length > 0) {
                 html += `<div class="image-gallery">`;
                 work.images.forEach(imageName => {
-                    const imagePath = `/uploads/${imageName.trim()}`;
+                    const imagePath = `${getBaseUrl()}/uploads/${imageName.trim()}`;
                     html += `<div class="image-item">`;
                     html += `<img src="${imagePath}" alt="作品图片" onclick="viewImage('${imagePath}')">`;
                     html += `</div>`;
@@ -961,7 +974,7 @@ function showWorkDetail(workId) {
             html += `</div>`;
             
             // 添加创建时间
-            html += `<p class="work-date">创建时间: ${work.created_at}</p>`;
+            html += `<p class="work-date">创建时间: ${formatBeijingTime(work.created_at)}</p>`;
             
             // 设置作品详情内容
             document.getElementById('workDetailContent').innerHTML = html;
@@ -997,7 +1010,7 @@ function getComposerWorks(composerId) {
                 html += `<td class="clickable-text" onclick="showDetail('work', ${work.id})">${work.title}</td>`;
                 html += `<td>${work.composer_name ? `<span class="clickable-text" onclick="showDetail('composer', ${work.composer_id})">${work.composer_name}</span>` : '-'}</td>`;
                 html += `<td>-</td>`; // 作品没有学生信息，用'-'代替
-                html += `<td>${work.created_at}</td>`;
+                html += `<td>${formatBeijingTime(work.created_at)}</td>`;
                 html += `<td>`;
                 if (work.images && work.images.length > 0) {
                     html += `<span>${work.images.length}张图片</span>`;

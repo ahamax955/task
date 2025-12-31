@@ -2,6 +2,12 @@ let currentWorkId = null;
 let currentComposerId = null;
 let composersList = [];
 
+function getBaseUrl() {
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    return `${protocol}//${host}`;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     currentWorkId = urlParams.get('workId');
@@ -46,7 +52,7 @@ function loadComposers() {
 }
 
 function loadWorkToEdit(workId) {
-    fetch(`/works/${workId}`)
+    fetch(`/api/works/${workId}`)
         .then(response => response.json())
         .then(work => {
             if (work.error) {
@@ -57,6 +63,7 @@ function loadWorkToEdit(workId) {
             document.getElementById('editWorkId').value = work.id;
             document.getElementById('editWorkTitleInput').value = work.title || '';
             document.getElementById('editWorkDescriptionInput').value = work.description || '';
+            document.getElementById('editWorkDifficultyInput').value = work.difficulty || '';
             
             loadComposers().then(() => {
                 const select = document.getElementById('editWorkComposerSelect');
@@ -83,7 +90,7 @@ function showExistingImages(images) {
     images.forEach((imageName, index) => {
         if (imageName.trim() !== '') {
             html += `<div class="preview-item">
-                <img src="/uploads/${imageName.trim()}" alt="作品图片${index + 1}">
+                <img src="${getBaseUrl()}/uploads/${imageName.trim()}" alt="作品图片${index + 1}">
                 <div class="preview-index">${index + 1}</div>
             </div>`;
         }
@@ -130,6 +137,7 @@ function saveWork() {
     const composerId = document.getElementById('editWorkComposerSelect').value;
     const title = document.getElementById('editWorkTitleInput').value.trim();
     const description = document.getElementById('editWorkDescriptionInput').value.trim();
+    const difficulty = document.getElementById('editWorkDifficultyInput').value;
     const imageInput = document.getElementById('editWorkImageInput');
     const files = imageInput.files;
     
@@ -154,6 +162,7 @@ function saveWork() {
     formData.append('title', title);
     formData.append('composer_id', composerId);
     formData.append('description', description);
+    formData.append('difficulty', difficulty);
     
     if (workId) {
         formData.append('work_id', workId);
